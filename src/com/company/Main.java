@@ -45,7 +45,6 @@ public class Main {
             System.out.println("Error generate reports");
             return;
         }
-
         System.out.println("Success report generate");
     }
 }

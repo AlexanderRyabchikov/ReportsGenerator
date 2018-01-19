@@ -11,25 +11,16 @@ public class GenReports {
 
     public boolean generationReports(){
 
-        String title = null;
-        for (int i = 0, j = 0;
-             i < getParseXML().getTitleColoum().length &&
-             j < getParseXML().getWidthColoum().length;
-             i++, j++){
 
-            title += createString (getParseXML().getTitleColoum()[i],
-                                    getParseXML().getWidthColoum()[j]);
-        }
-        title += "|";
-        System.out.println(title);
+        System.out.println(createTitle());
         return true;
     }
 
     private String createString(String nameTitle, int width) {
 
         String string = "| ";
-        for (int i = string.length(), j = 0; i < width; i++, j++){
-            if (nameTitle.length() < j){
+        for (int i = string.length() - 1, j = 0; i < width; i++, j++){
+            if (nameTitle.length() <= j){
                 string += " ";
             }
             else{
@@ -37,9 +28,22 @@ public class GenReports {
             }
 
         }
-
         return string;
 
+    }
+
+    private String createTitle(){
+        String title = "";
+        for (int i = 0, j = 0;
+             i < getParseXML().getTitleColoum().length &&
+                     j < getParseXML().getWidthColoum().length;
+             i++, j++){
+
+            title += createString (getParseXML().getTitleColoum()[i],
+                    getParseXML().getWidthColoum()[j] + NUM_SPEC_SYMBOLS);
+        }
+        title += "|";
+        return title;
     }
 
     public ParseXML getParseXML() {
@@ -57,4 +61,5 @@ public class GenReports {
     private ParseXML parseXML;
     private ReadData readData;
     private String outFile;
+    public static final int NUM_SPEC_SYMBOLS = 2;
 }
