@@ -1,11 +1,10 @@
 package engine;
 
 
-import com.opencsv.CSVReader;
+import com.univocity.parsers.tsv.TsvParser;
+import com.univocity.parsers.tsv.TsvParserSettings;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
 import java.util.List;
 
 public class ReadData implements IReadData {
@@ -17,19 +16,9 @@ public class ReadData implements IReadData {
     @Override
     public boolean read(String fileName) {
 
-        CSVReader reader = null;
-        try {
-            reader = new CSVReader(new FileReader(fileName));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        }
-        try {
-            myEntries  = reader.readAll();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        TsvParserSettings settings = new TsvParserSettings();
+        TsvParser tsvParser = new TsvParser(settings);
+        myEntries = tsvParser.parseAll(new File(fileName));
         return true;
     }
 
