@@ -22,18 +22,19 @@ public class GenReports {
     private void createLine(){
 
         String strResult = "";
-        int count = 0, i = 0;
+        String strResultAdd = "";
+        int count = 0, i = 0, qwe = 0;
         for (String[] lineString : getReadData().getMyEntries()){
             for (String str: lineString ) {
 
-                if (str.length() < getParseXML().getWidthColoum()[i] + NUM_SPEC_SYMBOLS) {
+                if (str.length() < getParseXML().getWidthColoum()[i]) {
                     strResult += createString(str, getParseXML().getWidthColoum()[i] + NUM_SPEC_SYMBOLS);
                 }
                 else{
                     String[] stringOpt = str.split(" ");
                     for (int key = 0; key < stringOpt.length; key++) {
                         if (key > 0){
-                            String strResultAdd = "";
+
                             for (int q = 0, j = 0;
                                  q < getParseXML().getTitleColoum().length &&
                                          j < getParseXML().getWidthColoum().length; q++, j++){
@@ -44,11 +45,15 @@ public class GenReports {
                                 else{
                                     strResultAdd += createString (stringOpt[key],
                                             getParseXML().getWidthColoum()[j] + NUM_SPEC_SYMBOLS);
+                                    qwe++;
                                 }
 
                             }
                             strResultAdd += "|";
-                            System.out.println(strResultAdd);
+                            if (qwe > 2){
+                                strResultAdd += " \n";
+                                qwe = 0;
+                            }
                         }else{
                             strResult += createString(stringOpt[key], getParseXML().getWidthColoum()[i] + NUM_SPEC_SYMBOLS);
                         }
@@ -62,6 +67,11 @@ public class GenReports {
             }
             strResult += "|";
             System.out.println(strResult);
+            if (strResultAdd != ""){
+                System.out.println(strResultAdd);
+                strResultAdd = "";
+                count++;
+            }
             count++;
             if (count == getParseXML().getPageHeigth() - 2){
                 System.out.println("~");
